@@ -3,3 +3,64 @@ CREATE OR REPLACE FUNCTION func(integer)
 	RETURNS integer
 	AS 'MODULE_PATHNAME', 'func'
 	LANGUAGE 'C' STRICT;
+
+CREATE OR REPLACE FUNCTION gcd(integer, integer)
+	RETURNS integer
+	AS 'MODULE_PATHNAME', 'gcd'
+	LANGUAGE 'C' STRICT;
+
+DROP TYPE rat CASCADE;
+
+CREATE OR REPLACE FUNCTION rat_in(cstring)
+	RETURNS rat
+	AS 'MODULE_PATHNAME', 'rat_in'
+	LANGUAGE 'C' STRICT;
+
+CREATE OR REPLACE FUNCTION rat_out(rat)
+	RETURNS cstring
+	AS 'MODULE_PATHNAME', 'rat_out'
+	LANGUAGE 'C' STRICT;
+
+CREATE TYPE rat(
+	INPUT = rat_in,
+	OUTPUT = rat_out,
+	INTERNALLENGTH = 8
+);
+
+CREATE OR REPLACE FUNCTION rat_add(rat, rat)
+	RETURNS rat
+	AS 'MODULE_PATHNAME', 'rat_add'
+	LANGUAGE 'C' STRICT;
+CREATE OR REPLACE FUNCTION rat_sub(rat, rat)
+	RETURNS rat
+	AS 'MODULE_PATHNAME', 'rat_sub'
+	LANGUAGE 'C' STRICT;
+CREATE OR REPLACE FUNCTION rat_mul(rat, rat)
+	RETURNS rat
+	AS 'MODULE_PATHNAME', 'rat_mul'
+	LANGUAGE 'C' STRICT;
+CREATE OR REPLACE FUNCTION rat_div(rat, rat)
+	RETURNS rat
+	AS 'MODULE_PATHNAME', 'rat_div'
+	LANGUAGE 'C' STRICT;
+
+CREATE OPERATOR + (
+	PROCEDURE = rat_add,
+	LEFTARG = rat,
+	RIGHTARG = rat
+);
+CREATE OPERATOR - (
+	PROCEDURE = rat_sub,
+	LEFTARG = rat,
+	RIGHTARG = rat
+);
+CREATE OPERATOR * (
+	PROCEDURE = rat_mul,
+	LEFTARG = rat,
+	RIGHTARG = rat
+);
+CREATE OPERATOR / (
+	PROCEDURE = rat_div,
+	LEFTARG = rat,
+	RIGHTARG = rat
+);
