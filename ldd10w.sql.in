@@ -64,3 +64,12 @@ CREATE OPERATOR / (
 	LEFTARG = rat,
 	RIGHTARG = rat
 );
+
+CREATE OR REPLACE FUNCTION i4torat(integer)
+	RETURNS rat
+	AS 'MODULE_PATHNAME', 'i4torat'
+	LANGUAGE 'C' STRICT;
+
+CREATE CAST (integer AS rat)
+	WITH FUNCTION i4torat(integer)
+	AS IMPLICIT;

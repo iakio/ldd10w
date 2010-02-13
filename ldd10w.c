@@ -14,6 +14,7 @@ PG_FUNCTION_INFO_V1(rat_add);
 PG_FUNCTION_INFO_V1(rat_sub);
 PG_FUNCTION_INFO_V1(rat_mul);
 PG_FUNCTION_INFO_V1(rat_div);
+PG_FUNCTION_INFO_V1(i4torat);
 extern Datum func(PG_FUNCTION_ARGS);
 extern Datum gcd(PG_FUNCTION_ARGS);
 extern Datum rat_in(PG_FUNCTION_ARGS);
@@ -22,6 +23,7 @@ extern Datum rat_add(PG_FUNCTION_ARGS);
 extern Datum rat_sub(PG_FUNCTION_ARGS);
 extern Datum rat_mul(PG_FUNCTION_ARGS);
 extern Datum rat_div(PG_FUNCTION_ARGS);
+extern Datum i4torat(PG_FUNCTION_ARGS);
 
 typedef struct {
 	int32	num;
@@ -146,5 +148,11 @@ rat_div(PG_FUNCTION_ARGS)
 			r1->denom * r2->num
 		)
 	);
+}
+
+Datum
+i4torat(PG_FUNCTION_ARGS)
+{
+	PG_RETURN_POINTER(rat_create(PG_GETARG_INT32(0), 1));
 }
 /* vim: set path+=~/pgsql/include/server :*/
